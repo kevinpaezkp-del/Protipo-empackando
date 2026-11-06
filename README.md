@@ -1,29 +1,25 @@
 # PlastiControl — piloto Empackando
 
-Prototipo público de gestión de producción, inventarios, transferencias, despachos, flota y gastos.
+Prototipo web público para revisar flujos de producción, inventario, traslados, ventas, despachos, flota y gastos.
 
 ## Abrir la demostración
-Una vez habilitado GitHub Pages (Settings > Pages > Deploy from a branch > main > /(root)), abrir:
-
 https://kevinpaezkp-del.github.io/Protipo-empackando/
 
-El punto de entrada es `index.html`.
+## Novedades: ventas, facturación y cartera
+- Precios unitarios configurables en el catálogo, editables por el administrador; cada pedido guarda su precio al registrarse.
+- Ventas por referencia y cantidad, subtotal, IVA configurable (0%, 5% o 19%) y retenciones configurables (retefuente, reteIVA, reteICA). El total a cobrar se calcula como subtotal + IVA - retenciones.
+- El requerimiento de factura **no cambia automáticamente los impuestos**; la aplicación permite marcar si el cliente la solicita, si ya está emitida y registrar su número.
+- Registro de pagos iniciales y abonos adicionales, cálculo automático de estados pagado, parcial, no pagado, y vencimiento.
+- Módulo **Cartera y cobros**, con montos pendientes y vencidos y lista de facturas por emitir.
+- Operación logística anterior intacta: inventario, producción, transferencias, ventas, flota, remisiones y gastos.
 
-## Importante
-- Los datos son sintéticos, almacenados solo en el navegador del visitante.
-- No hay autenticación real ni sincronización con Google Sheets, Drive o Apps Script.
-- Las remisiones se conservan localmente según las restricciones del navegador.
-- No introducir información personal real o documentos sensibles.
-- La versión V4 elimina el kilometraje, permite traslados con camión propio o tercero, cierre masivo de rutas y remisión independiente por entrega.
+## Cómo probar
+En **Ventas y despachos**, abre **Venta para despacho**, agrega cantidades y precios unitarios, configura IVA/retenciones y registra abonos. Luego abre **Cartera y cobros** para revisar saldos y facturas pendientes. Selecciona **Cobro / factura** en un pedido para agregar pagos y registrar la factura.
+Los datos de ejemplo son simulados. Para obtener los nuevos ejemplos de cartera en un navegador que ya utilizó la versión anterior, abre en ventana privada o usa el botón para reiniciar el prototipo (este último elimina los cambios guardados en ese navegador).
 
-
-## Propuesta en revisión: cobros y facturación por pedido
-
-En la rama `feature/pedidos-cobros-facturas-20261106` se agregó al prototipo:
-- Valor total del pedido y abono recibido.
-- Estado calculado: **valor pendiente**, **no pagado**, **pago parcial** o **pagado**.
-- Indicador de solicitud de factura: **por confirmar**, **no requiere**, **por facturar** o **emitida**, con número de factura cuando corresponda.
-- Acción **Cobro / factura** en la tabla de ventas y despachos.
-- Validaciones para impedir abonos superiores al valor de la venta.
-
-**Aviso:** esta funcionalidad sigue siendo demostrativa; los registros permanecen solo en el navegador. Los roles no equivalen a autenticación real. No usar este prototipo para cobrar clientes ni guardar facturas reales. Antes de producción se necesita backend, base de datos central, autenticación, auditoría y respaldos.
+## Importante: demostración, no uso contable ni productivo
+- Los registros se guardan solo en el navegador (**localStorage**); cada persona ve su propio conjunto de datos, sin sincronización ni base de datos central.
+- Los archivos de remisión también son locales (**IndexedDB**). No hay autenticación, permisos reales, pagos bancarios, factura electrónica ni integración con DIAN.
+- Las tarifas tributarias son ilustrativas y **deben ser validadas por el área contable** según producto, cliente y responsabilidades fiscales. Una venta sin factura solicitada **no está automáticamente exenta de IVA**, y no se puede omitir la factura cuando exista obligación legal de expedirla.
+- No ingresar nombres de clientes reales, datos sensibles, cuentas bancarias ni documentos comerciales reales.
+- Para pasar a producción se requieren backend, base de datos compartida, gestión de accesos, auditoría y respaldos.
